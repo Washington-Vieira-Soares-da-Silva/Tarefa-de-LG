@@ -1,0 +1,80 @@
+CREATE TABLE tbCliente ( 
+
+    codCliente INT PRIMARY KEY AUTO_INCREMENT, 
+
+    nomeCliente VARCHAR(100) NOT NULL,
+ 
+    telefoneCliente VARCHAR(20),
+  
+    EmailCliente VARCHAR(100) 
+
+);
+
+CREATE TABLE tbTipoAnimal ( 
+
+    codTipoAnimal INT PRIMARY KEY AUTO_INCREMENT, 
+
+    tipoAnimal VARCHAR(50) NOT NULL
+
+);  
+
+CREATE TABLE tbAnimal ( 
+
+    codAnimal INT PRIMARY KEY AUTO_INCREMENT, 
+
+    nomeAnimal VARCHAR(100) NOT NULL, 
+
+    fotoAnimal VARCHAR(255), 
+
+    codTipoAnimal INT, 
+
+    codCliente INT,  
+
+    FOREIGN KEY (codTipoAnimal) REFERENCES tbTipoAnimal(codTipoAnimal), 
+
+    FOREIGN KEY (codCliente) REFERENCES tbCliente(codCliente) 
+
+);
+
+CREATE TABLE tbVeterinario ( 
+
+    codVet INT PRIMARY KEY AUTO_INCREMENT, 
+
+    nomeVet VARCHAR(100) NOT NULL
+
+);
+
+CREATE TABLE tbAtendimento ( 
+
+    codAtendimento INT PRIMARY KEY AUTO_INCREMENT, 
+
+    DataAtendimento DATE NOT NULL, 
+
+    HoraAtendimento TIME NOT NULL, 
+
+    codAnimal INT, 
+
+    codVet INT,  
+
+    FOREIGN KEY (codAnimal) REFERENCES tbAnimal(codAnimal), 
+
+    FOREIGN KEY (codVet) REFERENCES tbVeterinario(codVet) 
+
+);
+
+SELECT
+    
+    c.codCliente,
+    c.nomeCliente,
+    c.telefoneCliente,
+    c.EmailCliente,
+    a.nomeAnimal,
+    a.fotoAnimal,
+    t.tipoAnimal
+FROM
+    tbCliente c
+INNER JOIN
+    tbAnimal a ON c.codCliente = a.codCliente
+INNER JOIN
+    tbTipoAnimal t ON a.codTipoAnimal = t.codTipoAnimal;
+    
